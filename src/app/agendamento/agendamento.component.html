@@ -1,0 +1,95 @@
+<div class="container top">
+
+  <legend>Agendamento SMS</legend>
+
+  <div class="float-right">
+    <button class="btn btn-success btn-xs" (click)="newAgendamento()" *ngIf="!newView">
+      Novo Agendamento
+    </button>
+  </div>
+  <br>
+
+  <div *ngIf="listView">
+    
+    <div class="row" *ngIf="allAgendamento.length > 0" >
+      <div class="col-xs-2 col-md-2" *ngFor="let i of allAgendamento" >
+        <div class="bloco" [ngStyle]="{ 'background-color': i.ativo == 1 ? '#98FB98' : '#FA8072' }">
+          <span><b>HS:</b> {{ i.hora_minuto }}</span><br>
+          <span>{{ i.pessoas.length }} Pessoas</span><br>
+          <button class="btn btn-primary btn-xs" (click)="getOne(i)">Editar</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="allAgendamento.length == 0">
+      Não há agendamento cadastrado. 
+    </div>
+
+  </div>
+
+  <div *ngIf="newView && oneAgendamento != null">
+    <div class="form-group col-sm-12">
+      <label for="mensagem">Mensangem: {{ oneAgendamento.mensagem.length }} /144</label>
+      <textarea class="form-control" name="mensagem" id="mensagem" cols="30" rows="5" maxlength="144" [(ngModel)]="oneAgendamento.mensagem"></textarea>
+    </div>
+    <div class="form-group col-sm-2">
+      <label for="hora_minuto">Hora do Envio:</label>
+      <input type="time" class="form-control" name="hora_minuto" id="hora_minuto" min="00:00" max="23:00" [(ngModel)]="oneAgendamento.hora_minuto">
+    </div>
+    <div class="form-group col-sm-2">
+      <label for="ativo">Ativo:</label>
+      <select class="form-control" name="ativo" id="ativo" [(ngModel)]="oneAgendamento.ativo">
+        <option *ngFor="let i of activeList"  [value]="i.id">{{ i.text }}</option>
+      </select>
+    </div>
+    <div class="form-group col-sm-8">
+      <label for="arquivo">Arquivo: <span class="warning">(Formato: CSV / Ex: 83999999999;Fulano da Silva)</span></label>
+      <input id="file" type="file" class="form-control" (change)="fileChanged($event)"/>
+    </div>
+    
+    <div class="col-sm-12">
+      <legend class="legend">
+        Pessoas
+        <div class="float-right" *ngIf="oneAgendamento.pessoas.length > 0" >
+          {{ oneAgendamento.pessoas.length }}
+         </div>
+      </legend>
+    </div>
+
+    <div class="table-responsive col-md-12 scroll">
+      <table class="table table-condensed table-hover">
+        <thead>
+          <tr>
+            <th class="col-sm-4 center">TELEFONE</th>
+            <th class="col-sm-8 center">NOME</th>
+            <th class="col-sm-8 center">EXCLUIR</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="oneAgendamento.pessoas.length > 0">
+          <tr *ngFor="let p of oneAgendamento.pessoas">
+            <td class="center">{{ p.telefone }}</td>
+            <td>{{ p.nome }}</td>
+            <td class="center"><span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="deleteVinculo(oneAgendamento.id,p.telefone)"></span></td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="oneAgendamento.pessoas.length == 0">
+          <tr>
+            <td colspan="3">...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="form-group">
+      <div class="col-sm-12">
+        <br><br>
+        <button class="btn btn-lg btn-primary" (click)="confirm()" [disabled]="disabledBtn()">Confirmar</button>
+        <button class="btn btn-lg btn-danger spacing-left" (click)="cancel()">Cancelar</button>
+      </div>
+    </div>
+   
+  </div>
+
+</div>
+
+

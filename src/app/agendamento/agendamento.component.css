@@ -1,0 +1,39 @@
+.top{
+    margin-top: 15px;
+}
+
+.float-right{
+    float: right;
+    font-size: 16px;
+}
+
+.legend{
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.warning{
+    font-size: 12px;
+    font-weight: bold;
+    color: red;
+}
+
+.scroll { 
+    height: 300px;
+    margin: auto; 
+    position: relative;
+}
+
+.spacing-left{
+    margin-left: 5px;
+}
+
+.bloco{
+    text-align: center;
+    padding: 10px;
+}
+
+.center{
+    text-align: center;
+}
